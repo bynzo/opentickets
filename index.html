@@ -48,34 +48,113 @@
         <!-- Dashboard will be rendered here by JavaScript -->
     </div>
 
+    <!-- Login Modal -->
+    <div id="login-modal" class="hidden modal-backdrop">
+        <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-6 text-center text-[#003366]">Admin Login</h2>
+            <form id="login-form">
+                <div class="mb-4">
+                    <label for="login-id" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" id="login-id" name="login-id" placeholder="Equans_Alstom" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                </div>
+                <div class="mb-6">
+                    <label for="login-password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="login-password" name="login-password" placeholder="St_Brun0" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                </div>
+                <div class="flex justify-between items-center">
+                    <button type="submit" class="bg-[#003366] hover:bg-[#00212d] text-[#f2f2f2] font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-200">Login</button>
+                    <button type="button" id="close-login-modal" class="text-gray-500 hover:text-gray-700">Cancel</button>
+                </div>
+                <div id="login-error-message" class="mt-4 text-red-500 text-center hidden">Invalid credentials.</div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Add/Edit Ticket Modal -->
+    <div id="ticket-modal" class="hidden modal-backdrop">
+        <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-lg">
+            <h2 id="ticket-modal-title" class="text-2xl font-bold mb-6 text-center text-[#003366]">Add New Ticket</h2>
+            <form id="ticket-form">
+                <input type="hidden" id="ticket-id">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="work-order" class="block text-sm font-medium text-gray-700">Work Order #</label>
+                        <input type="text" id="work-order" name="work-order" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div>
+                        <label for="submission-date" class="block text-sm font-medium text-gray-700">Submission Date</label>
+                        <input type="date" id="submission-date" name="submission-date" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                    <textarea id="description" name="description" rows="3" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"></textarea>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                        <select id="status" name="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        </select>
+                    </div>
+                    <div>
+                        <label for="responsible" class="block text-sm font-medium text-gray-700">Responsible</label>
+                        <input type="text" id="responsible" name="responsible" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="planned-date" class="block text-sm font-medium text-gray-700">Planned Date</label>
+                        <input type="date" id="planned-date" name="planned-date" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    </div>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="high-risk" name="high-risk" class="h-4 w-4 text-[#003366] border-gray-300 rounded focus:ring-[#003366]">
+                        <label for="high-risk" class="ml-2 block text-sm font-medium text-gray-700">High Risk</label>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center mt-6">
+                    <button type="submit" class="bg-[#003366] hover:bg-[#00212d] text-[#f2f2f2] font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-200">Save</button>
+                    <button type="button" id="close-ticket-modal" class="text-gray-500 hover:text-gray-700">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Confirmation Modal for Delete -->
+    <div id="confirmation-modal" class="hidden modal-backdrop">
+        <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm text-center">
+            <h2 class="text-xl font-bold mb-4 text-red-600">Confirm Deletion</h2>
+            <p class="mb-6 text-gray-700">Are you sure you want to delete this ticket? This action cannot be undone.</p>
+            <div class="flex justify-center space-x-4">
+                <button id="confirm-delete-btn" class="bg-red-600 hover:bg-red-800 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-200">Delete</button>
+                <button id="cancel-delete-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-200">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, doc, addDoc, setDoc, deleteDoc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // ====================================================================
-        //  !!! IMPORTANT !!!
-        //  Please add your Firebase configuration here.
-        //  You can find this in your Firebase project settings.
-        // ====================================================================
+        
+        // --- IMPORTANT: PLACE YOUR FIREBASE CONFIG HERE ---
         const firebaseConfig = {
-            apiKey: "AIzaSyAil9c2kq2C9jkPDGwlKtJj8qUd_oXqQzI",
-            authDomain: "openticketdashboard.firebaseapp.com",
-            projectId: "openticketdashboard",
-            storageBucket: "openticketdashboard.firebasestorage.app",
-            messagingSenderId: "745663706828",
-            appId: "1:745663706828:web:068b44618714aa7a3f3469"
+  apiKey: "AIzaSyAil9c2kq2C9jkPDGwlKtJj8qUd_oXqQzI",
+  authDomain: "openticketdashboard.firebaseapp.com",
+  projectId: "openticketdashboard",
+  storageBucket: "openticketdashboard.firebasestorage.app",
+  messagingSenderId: "745663706828",
+  appId: "1:745663706828:web:068b44618714aa7a3f3469"
 };
-        const APP_ID = "YOUR_APP_ID"; // Also add your app id here
-
+        
         // Global state variables
         let app, db, auth;
         let tickets = [];
-        let userId = null;
-        let isAuthReady = false;
         let isLoggedIn = false;
         let filterStatus = 'All';
+        
+        // Hardcoded user ID for the specified database path.
+        const adminUserId = '66JF47W8TdfJ4iLbrMk7NL50kb02';
 
         // Predefined statuses and colors for consistency
         const predefinedStatuses = [
@@ -121,6 +200,16 @@
             }
             return new Date(year, month - 1, day);
         };
+        
+        // Helper function to show modals
+        const showModal = (modalId) => {
+            document.getElementById(modalId).classList.remove('hidden');
+        };
+
+        // Helper function to hide modals
+        const hideModal = (modalId) => {
+            document.getElementById(modalId).classList.add('hidden');
+        };
 
         // --- UI Rendering Functions ---
 
@@ -129,15 +218,18 @@
             if (!root) return;
             
             const filteredTickets = tickets.filter(ticket => {
+                const searchInput = document.getElementById('search-input');
+                const searchQuery = searchInput ? searchInput.value.toLowerCase() : '';
                 const matchesStatus = filterStatus === 'All' || getConsolidatedStatus(ticket.status) === filterStatus;
-                return matchesStatus;
+                const matchesSearch = !searchQuery || JSON.stringify(ticket).toLowerCase().includes(searchQuery);
+                return matchesStatus && matchesSearch;
             });
             
             root.innerHTML = `
                 <header class="bg-[#f2f2f2] p-4 rounded-2xl shadow-lg flex flex-col md:flex-row items-center justify-between mb-8">
                     <div class="flex items-center mb-4 md:mb-0">
                         <div class="flex-shrink-0">
-                            <img src="logo_header.png" alt="Company Logo" class="h-10 w-auto mr-4">
+                            <img src="https://placehold.co/40x40/003366/f2f2f2?text=EQ" alt="Company Logo" class="h-10 w-auto mr-4">
                         </div>
                         <h1 class="text-3xl font-bold text-[#00212d] text-center md:text-center w-full">Work Order Dashboard</h1>
                     </div>
@@ -192,15 +284,15 @@
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-[#e6e6e6]">
                                 <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider">Work Order</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider">Image</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider">Description</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider">Status</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider">Submission Date</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider">Planned Date</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider">Responsible</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider">High Risk</th>
-                                    ${isLoggedIn ? `<th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider">Actions</th>` : ''}
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider w-32">Work Order</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider w-24">Image</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider w-64">Description</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider w-40">Status</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider w-32">Submission Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider w-32">Planned Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider w-40">Responsible</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider w-24">High Risk</th>
+                                    ${isLoggedIn ? `<th class="px-6 py-3 text-left text-xs font-medium text-[#00212d] uppercase tracking-wider w-32">Actions</th>` : ''}
                                 </tr>
                             </thead>
                             <tbody class="bg-[#f2f2f2] divide-y divide-gray-300" id="tickets-table-body">
@@ -211,8 +303,6 @@
                 </div>
             `;
             
-            // Re-attach event listeners after rendering
-            attachEventListeners();
             renderTicketsTable(filteredTickets);
             renderCalendarView();
         };
@@ -223,21 +313,21 @@
 
             tableBody.innerHTML = filteredTickets.map(ticket => `
                 <tr class="hover:bg-gray-100 transition-colors duration-200 cursor-pointer" data-id="${ticket.id}">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#00212d]">${ticket.workOrder}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#00212d]">
+                    <td class="px-6 py-4 text-sm text-[#00212d] w-32">${ticket.workOrder}</td>
+                    <td class="px-6 py-4 text-sm text-[#00212d] w-24">
                         ${ticket.image ? `<img src="${ticket.image}" alt="Ticket thumbnail" class="h-10 w-10 object-cover rounded-lg">` : ''}
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#00212d]">${ticket.description}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#00212d]">${getConsolidatedStatus(ticket.status)}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#00212d]">${ticket.submissionDate}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#00212d]">${ticket.plannedDate || 'N/A'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#00212d]">${ticket.responsible || 'N/A'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-[#00212d]">${ticket.highRisk}</td>
+                    <td class="px-6 py-4 text-sm text-[#00212d] w-64 max-w-xs break-words">${ticket.description}</td>
+                    <td class="px-6 py-4 text-sm text-[#00212d] w-40">${getConsolidatedStatus(ticket.status)}</td>
+                    <td class="px-6 py-4 text-sm text-[#00212d] w-32">${ticket.submissionDate}</td>
+                    <td class="px-6 py-4 text-sm text-[#00212d] w-32">${ticket.plannedDate || 'N/A'}</td>
+                    <td class="px-6 py-4 text-sm text-[#00212d] w-40">${ticket.responsible || 'N/A'}</td>
+                    <td class="px-6 py-4 text-sm text-[#00212d] w-24">${ticket.highRisk}</td>
                     ${isLoggedIn ? `
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button class="text-[#003366] hover:text-[#00212d] transition-colors duration-200 mr-4 edit-btn" data-id="${ticket.id}">Edit</button>
-                            <button class="text-red-600 hover:text-red-800 transition-colors duration-200 delete-btn" data-id="${ticket.id}">Delete</button>
-                        </td>
+                    <td class="px-6 py-4 text-right text-sm font-medium w-32">
+                        <button class="text-[#003366] hover:text-[#00212d] transition-colors duration-200 mr-4 edit-btn" data-id="${ticket.id}">Edit</button>
+                        <button class="text-red-600 hover:text-red-800 transition-colors duration-200 delete-btn" data-id="${ticket.id}">Delete</button>
+                    </td>
                     ` : ''}
                 </tr>
             `).join('');
@@ -249,459 +339,329 @@
 
             const plannedDates = tickets
                 .filter(t => t.plannedDate)
-                .map(t => ({ date: parseDate(t.plannedDate), status: getConsolidatedStatus(t.status) }));
-                
-            const getDaysInMonth = (date) => new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-            const getFirstDayOfMonth = (date) => new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+                .map(t => ({ date: parseDate(t.plannedDate), workOrder: t.workOrder, status: t.status }));
 
-            const daysInMonth = getDaysInMonth(date);
-            const firstDay = getFirstDayOfMonth(date);
+            const today = new Date();
+            const currentMonth = date.getMonth();
+            const currentYear = date.getFullYear();
 
-            let daysHtml = '';
-            for (let i = 0; i < firstDay; i++) {
-                daysHtml += `<div class="p-2"></div>`;
-            }
-            for (let i = 1; i <= daysInMonth; i++) {
-                const events = plannedDates.filter(e =>
-                    e.date &&
-                    e.date.getDate() === i &&
-                    e.date.getMonth() === date.getMonth() &&
-                    e.date.getFullYear() === date.getFullYear()
-                );
-                
-                const eventIndicators = events.map(event => `<span class="w-2 h-2 rounded-full m-[1px]" style="background-color: ${statusColors[event.status]}"></span>`).join('');
-                const title = events.length > 0 ? events.map(e => `Status: ${e.status}`).join(', ') : '';
-                const bgColor = events.length > 0 ? 'bg-[#cce5d9] hover:bg-[#b8d1c1]' : 'hover:bg-[#e6e6e6]';
+            const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+            const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
 
-                daysHtml += `
-                    <div class="p-2 border border-gray-300 rounded-lg text-sm transition-colors duration-200 ${bgColor}" title="${title}">
-                        <div class="font-bold text-[#00212d]">${i}</div>
-                        <div class="flex flex-wrap mt-1">
-                            ${eventIndicators}
-                        </div>
-                    </div>
-                `;
-            }
+            const startDay = firstDayOfMonth.getDay();
+            const daysInMonth = lastDayOfMonth.getDate();
 
-            calendarContainer.innerHTML = `
+            let calendarHTML = `
                 <div class="flex justify-between items-center mb-4">
-                    <button id="prev-month-btn" class="text-[#00212d] hover:text-[#003366] font-semibold transition-colors duration-200">< Prev</button>
-                    <h2 class="text-xl font-semibold text-center text-[#00212d]">${date.toLocaleString('default', { month: 'long', year: 'numeric' })}</h2>
-                    <button id="next-month-btn" class="text-[#00212d] hover:text-[#003366] font-semibold transition-colors duration-200">Next ></button>
+                    <button id="prev-month-btn" class="text-[#00212d] p-2 rounded-full hover:bg-gray-200 transition-colors duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <h3 class="text-xl font-semibold">${date.toLocaleString('default', { month: 'long', year: 'numeric' })}</h3>
+                    <button id="next-month-btn" class="text-[#00212d] p-2 rounded-full hover:bg-gray-200 transition-colors duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
                 </div>
-                <div class="grid grid-cols-7 gap-1 text-center text-[#4a5568] text-sm mb-2">
-                    <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+                <div class="grid grid-cols-7 text-center text-sm font-medium text-[#4a5568] mb-2">
+                    <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
                 </div>
-                <div class="grid grid-cols-7 gap-1 min-h-[300px]">
-                    ${daysHtml}
-                </div>
+                <div class="grid grid-cols-7 gap-1 text-center">
             `;
-            
-            document.getElementById('prev-month-btn').addEventListener('click', () => {
-                const newDate = new Date(date.getFullYear(), date.getMonth() - 1, 1);
-                renderCalendarView(newDate);
-            });
-            document.getElementById('next-month-btn').addEventListener('click', () => {
-                const newDate = new Date(date.getFullYear(), date.getMonth() + 1, 1);
-                renderCalendarView(newDate);
-            });
-        };
 
-        const renderFormModal = (ticket = null) => {
-            const modalHtml = `
-                <div class="modal-backdrop" id="ticket-modal">
-                    <div class="bg-[#f2f2f2] p-8 rounded-2xl shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-                        <h2 class="text-2xl font-bold mb-6 text-center text-[#003366]">${ticket ? 'Edit Ticket' : 'Add a New Ticket'}</h2>
-                        <form id="ticket-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <input type="hidden" id="ticket-id" value="${ticket ? ticket.id : ''}">
-                            <div class="flex flex-col">
-                                <label class="text-sm font-medium text-[#00212d] mb-1">Work Order</label>
-                                <input type="text" id="workOrder" value="${ticket ? ticket.workOrder : ''}" class="p-3 rounded-lg bg-white border border-gray-300 text-[#00212d] focus:outline-none focus:border-[#003366]" required>
-                            </div>
-                            <div class="flex flex-col">
-                                <label class="text-sm font-medium text-[#00212d] mb-1">Description</label>
-                                <input type="text" id="description" value="${ticket ? ticket.description : ''}" class="p-3 rounded-lg bg-white border border-gray-300 text-[#00212d] focus:outline-none focus:border-[#003366]" required>
-                            </div>
-                            <div class="flex flex-col">
-                                <label class="text-sm font-medium text-[#00212d] mb-1">Submission Date</label>
-                                <input type="date" id="submissionDate" value="${ticket ? ticket.submissionDate : ''}" class="p-3 rounded-lg bg-white border border-gray-300 text-[#00212d] focus:outline-none focus:border-[#003366]">
-                            </div>
-                            <div class="flex flex-col">
-                                <label class="text-sm font-medium text-[#00212d] mb-1">High Risk</label>
-                                <select id="highRisk" class="p-3 rounded-lg bg-white border border-gray-300 text-[#00212d] focus:outline-none focus:border-[#003366]">
-                                    <option value="Yes" ${ticket && ticket.highRisk === 'Yes' ? 'selected' : ''}>Yes</option>
-                                    <option value="No" ${ticket && ticket.highRisk === 'No' ? 'selected' : ''}>No</option>
-                                </select>
-                            </div>
-                            <div class="flex flex-col">
-                                <label class="text-sm font-medium text-[#00212d] mb-1">Status</label>
-                                <select id="status" class="p-3 rounded-lg bg-white border border-gray-300 text-[#00212d] focus:outline-none focus:border-[#003366]" required>
-                                    <option value="">Select a Status</option>
-                                    ${predefinedStatuses.map(s => `<option value="${s}" ${ticket && ticket.status === s ? 'selected' : ''}>${s}</option>`).join('')}
-                                </select>
-                            </div>
-                            <div class="flex flex-col">
-                                <label class="text-sm font-medium text-[#00212d] mb-1">Planned Date</label>
-                                <input type="date" id="plannedDate" value="${ticket ? ticket.plannedDate : ''}" class="p-3 rounded-lg bg-white border border-gray-300 text-[#00212d] focus:outline-none focus:border-[#003366]">
-                            </div>
-                            <div class="flex flex-col">
-                                <label class="text-sm font-medium text-[#00212d] mb-1">Responsible</label>
-                                <input type="text" id="responsible" value="${ticket ? ticket.responsible : ''}" class="p-3 rounded-lg bg-white border border-gray-300 text-[#00212d] focus:outline-none focus:border-[#003366]">
-                            </div>
-                            <div class="flex flex-col">
-                                <label class="text-sm font-medium text-[#00212d] mb-1">Upload Image</label>
-                                <input type="file" id="image-upload" accept="image/*" class="p-2 rounded-lg bg-white border border-gray-300 text-[#00212d] focus:outline-none focus:border-[#003366]">
-                                <div id="image-preview" class="mt-2">
-                                    ${ticket && ticket.image ? `
-                                        <h4 class="text-sm font-medium text-[#00212d]">Image Preview:</h4>
-                                        <img src="${ticket.image}" alt="ticket preview" class="w-24 h-24 object-cover rounded-lg mt-1">
-                                    ` : ''}
-                                </div>
-                            </div>
-                            <div class="col-span-2">
-                                <label class="text-sm font-medium text-[#00212d] mb-2 block">Comments</label>
-                                <div id="comments-list" class="bg-white p-4 rounded-lg border border-gray-300 mb-4 h-32 overflow-y-auto">
-                                    ${ticket && ticket.comments && ticket.comments.length > 0 ? `
-                                        <ul class="list-disc list-inside space-y-1">
-                                            ${ticket.comments.map(c => `
-                                                <li class="text-sm text-[#00212d]">
-                                                    <span class="font-semibold">${c.date}:</span> ${c.text}
-                                                </li>
-                                            `).join('')}
-                                        </ul>
-                                    ` : '<p class="text-sm text-gray-500 italic">No comments yet.</p>'}
-                                </div>
-                                <div class="flex items-center space-x-2">
-                                    <textarea id="new-comment" placeholder="Add a new comment..." class="flex-1 p-2 rounded-lg border border-gray-300 text-[#00212d] focus:outline-none focus:border-[#003366]" rows="2"></textarea>
-                                    <button type="button" id="add-comment-btn" class="bg-[#003366] hover:bg-[#00212d] text-[#f2f2f2] font-semibold py-2 px-4 rounded-lg transition-colors duration-200 h-full">Add</button>
-                                </div>
-                            </div>
-                            <div class="col-span-2 flex justify-end space-x-4 mt-4">
-                                <button type="button" id="close-modal-btn" class="px-6 py-3 rounded-lg text-[#00212d] border border-gray-300 hover:bg-gray-100 transition-colors duration-200">Cancel</button>
-                                <button type="submit" class="px-6 py-3 rounded-lg text-[#f2f2f2] bg-[#003366] hover:bg-[#00212d] font-semibold transition-colors duration-200">Save</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
-            
-            // Add event listeners for the modal
-            document.getElementById('close-modal-btn').addEventListener('click', closeModal);
-            document.getElementById('ticket-form').addEventListener('submit', saveTicket);
-            document.getElementById('add-comment-btn').addEventListener('click', addComment);
-            document.getElementById('image-upload').addEventListener('change', handleImageUpload);
-        };
-        
-        const renderLoginModal = () => {
-            const modalHtml = `
-                <div class="modal-backdrop" id="login-modal">
-                    <div class="bg-[#f2f2f2] p-8 rounded-2xl shadow-xl max-w-sm w-full text-center">
-                        <h2 class="text-2xl font-bold mb-6 text-center text-[#003366]">Login</h2>
-                        <form id="login-form">
-                            <div class="mb-4">
-                                <input type="text" id="login-id" placeholder="ID" class="w-full p-3 rounded-lg bg-white border border-gray-300 text-[#00212d] focus:outline-none focus:border-[#003366]">
-                            </div>
-                            <div class="mb-6">
-                                <input type="password" id="login-password" placeholder="Password" class="w-full p-3 rounded-lg bg-white border border-gray-300 text-[#00212d] focus:outline-none focus:border-[#003366]">
-                            </div>
-                            <button type="submit" class="w-full bg-[#003366] hover:bg-[#00212d] text-[#f2f2f2] font-semibold py-3 rounded-lg transition-colors duration-200">Login</button>
-                            <p id="login-error-message" class="text-red-500 mt-4 hidden"></p>
-                        </form>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
-            
-            document.getElementById('login-form').addEventListener('submit', handleLogin);
-            
-            // Allow clicking outside the modal to close it
-            document.getElementById('login-modal').addEventListener('click', (e) => {
-                if (e.target.id === 'login-modal') {
-                    e.target.remove();
+            for (let i = 0; i < startDay; i++) {
+                calendarHTML += `<div class="p-2"></div>`;
+            }
+
+            for (let i = 1; i <= daysInMonth; i++) {
+                const currentDate = new Date(currentYear, currentMonth, i);
+                const isToday = currentDate.toDateString() === today.toDateString();
+                const isTicketDay = plannedDates.some(pd => pd.date && pd.date.toDateString() === currentDate.toDateString());
+                const ticketForDay = plannedDates.find(pd => pd.date && pd.date.toDateString() === currentDate.toDateString());
+
+                let dayClasses = 'p-2 rounded-lg transition-colors duration-200';
+                if (isToday) {
+                    dayClasses += ' bg-[#003366] text-white font-bold';
+                } else {
+                    dayClasses += ' hover:bg-gray-100';
                 }
-            });
+
+                if (isTicketDay) {
+                    dayClasses += ' bg-opacity-75 relative group';
+                    calendarHTML += `
+                        <div class="${dayClasses}" style="background-color: ${statusColors[getConsolidatedStatus(ticketForDay.status)]}; color: white;">
+                            ${i}
+                            <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-25 rounded-lg transition-all duration-200"></div>
+                            <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:block w-32 bg-gray-800 text-white text-xs rounded-md py-1 px-2 z-10 whitespace-nowrap">
+                                ${ticketForDay.workOrder}
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    calendarHTML += `<div class="${dayClasses}">${i}</div>`;
+                }
+            }
+
+            calendarHTML += `</div>`;
+            calendarContainer.innerHTML = calendarHTML;
+
+            // Calendar navigation buttons will be handled by event delegation
         };
         
-        const handleLogin = async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('login-id').value;
-            const password = document.getElementById('login-password').value;
-            const errorMessage = document.getElementById('login-error-message');
-            
-            // Hardcoded credentials
-            if (id === 'Equans_Alstom' && password === 'St_Brun0') {
+        // --- Firebase Interaction Functions ---
+
+        // The custom token provided by the environment will handle Firebase authentication.
+        // We will not use signInWithEmailAndPassword to avoid the 'auth/operation-not-allowed' error.
+
+        const handleLogin = async (username, password) => {
+            // Check against hardcoded credentials
+            if (username === 'Equans_Alstom' && password === 'St_Brun0') {
                 isLoggedIn = true;
-                document.getElementById('login-modal').remove();
+                hideModal('login-modal');
+                // Re-render the dashboard to show admin buttons
                 renderDashboard();
+                return true;
             } else {
-                errorMessage.textContent = 'Invalid ID or password.';
-                errorMessage.classList.remove('hidden');
+                document.getElementById('login-error-message').innerText = "Invalid credentials. Please try again.";
+                document.getElementById('login-error-message').classList.remove('hidden');
+                return false;
             }
         };
-        
+
         const handleLogout = () => {
             isLoggedIn = false;
+            // Re-render the dashboard to hide admin buttons
             renderDashboard();
         };
-
-        const renderConfirmationModal = (id) => {
-            const modalHtml = `
-                <div class="modal-backdrop" id="confirmation-modal">
-                    <div class="bg-[#f2f2f2] p-8 rounded-2xl shadow-xl max-w-sm w-full text-center">
-                        <p class="text-lg text-[#00212d] mb-6">Are you sure you want to delete this ticket?</p>
-                        <div class="flex justify-center space-x-4">
-                            <button id="confirm-delete-btn" data-id="${id}" class="px-6 py-2 rounded-lg text-white bg-red-600 hover:bg-red-700 transition-colors duration-200 font-semibold">Confirm</button>
-                            <button id="cancel-delete-btn" class="px-6 py-2 rounded-lg text-[#00212d] border border-gray-300 hover:bg-gray-100 transition-colors duration-200">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
-            
-            document.getElementById('confirm-delete-btn').addEventListener('click', confirmDelete);
-            document.getElementById('cancel-delete-btn').addEventListener('click', cancelDelete);
-        };
-
-        const renderDetailsModal = (ticket) => {
-            const modalHtml = `
-                <div class="modal-backdrop" id="details-modal">
-                    <div class="bg-[#f2f2f2] p-8 rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-bold text-[#003366]">Ticket Details: ${ticket.workOrder}</h2>
-                            <button id="close-details-modal-btn" class="text-gray-500 hover:text-gray-800 text-3xl font-bold leading-none">×</button>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-[#00212d] mb-6">
-                            <div><strong>Description:</strong> ${ticket.description}</div>
-                            <div><strong>Status:</strong> ${getConsolidatedStatus(ticket.status)}</div>
-                            <div><strong>Submission Date:</strong> ${ticket.submissionDate}</div>
-                            <div><strong>Planned Date:</strong> ${ticket.plannedDate || 'N/A'}</div>
-                            <div><strong>Responsible:</strong> ${ticket.responsible || 'N/A'}</div>
-                            <div><strong>High Risk:</strong> ${ticket.highRisk}</div>
-                        </div>
-                        ${ticket.image ? `
-                            <div class="mt-4">
-                                <h3 class="text-xl font-semibold text-[#003366] mb-3">Image</h3>
-                                <img src="${ticket.image}" alt="Image for ticket ${ticket.workOrder}" class="w-full h-auto rounded-lg shadow-md max-h-96 object-contain">
-                            </div>
-                        ` : ''}
-                        <div class="mt-4">
-                            <h3 class="text-xl font-semibold text-[#003366] mb-3">Comments</h3>
-                            ${ticket.comments && ticket.comments.length > 0 ? `
-                                <ul class="list-disc list-inside space-y-2 text-[#00212d]">
-                                    ${ticket.comments.map(c => `
-                                        <li><span class="font-bold text-[#003366]">${c.date}:</span> ${c.text}</li>
-                                    `).join('')}
-                                </ul>
-                            ` : `
-                                <p class="text-gray-500 italic">No comments available for this ticket.</p>
-                            `}
-                        </div>
-                    </div>
-                </div>
-            `;
-            document.body.insertAdjacentHTML('beforeend', modalHtml);
-            document.getElementById('close-details-modal-btn').addEventListener('click', () => {
-                document.getElementById('details-modal').remove();
-            });
-        };
-
-        const attachEventListeners = () => {
-            const addBtn = document.getElementById('add-ticket-btn');
-            if (addBtn) addBtn.addEventListener('click', () => renderFormModal());
-            
-            const loginBtn = document.getElementById('login-btn');
-            if (loginBtn) loginBtn.addEventListener('click', renderLoginModal);
-            
-            const logoutBtn = document.getElementById('logout-btn');
-            if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
-
-            const tableBody = document.getElementById('tickets-table-body');
-            if (tableBody) {
-                tableBody.addEventListener('click', (e) => {
-                    const row = e.target.closest('tr');
-                    const id = row.dataset.id;
-                    const ticket = tickets.find(t => t.id === id);
-
-                    if (e.target.classList.contains('edit-btn') && isLoggedIn) {
-                        e.stopPropagation();
-                        renderFormModal(ticket);
-                    } else if (e.target.classList.contains('delete-btn') && isLoggedIn) {
-                        e.stopPropagation();
-                        renderConfirmationModal(id);
-                    } else if (ticket) {
-                         renderDetailsModal(ticket);
-                    }
-                });
-            }
-            
-            document.querySelectorAll('.status-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const status = e.currentTarget.dataset.status;
-                    filterStatus = (filterStatus === status) ? 'All' : status;
-                    renderDashboard();
-                });
-            });
-            
-            document.getElementById('clear-filter-btn')?.addEventListener('click', () => {
-                filterStatus = 'All';
-                renderDashboard();
-            });
-
-            document.getElementById('search-input')?.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                const filtered = tickets.filter(ticket => 
-                    Object.values(ticket).some(value => String(value).toLowerCase().includes(searchTerm))
-                );
-                renderTicketsTable(filtered);
-            });
-        };
         
-        const closeModal = () => {
-            document.getElementById('ticket-modal')?.remove();
+        const addTicket = async (ticketData) => {
+            try {
+                if (!isLoggedIn) {
+                    // This check is a failsafe; the UI should already prevent this.
+                    console.error("User not logged in. Cannot add tickets.");
+                    return;
+                }
+                const appId = firebaseConfig.appId;
+                const newTicket = {
+                    ...ticketData,
+                    highRisk: ticketData.highRisk === 'true',
+                    submissionDate: serverTimestamp(),
+                };
+                // Use the hardcoded adminUserId in the path
+                await addDoc(collection(db, 'artifacts', appId, 'users', adminUserId, 'tickets'), newTicket);
+                hideModal('ticket-modal');
+                console.log("Ticket added successfully!");
+            } catch (error) {
+                console.error("Error adding ticket:", error);
+            }
         };
 
-        const saveTicket = async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('ticket-id').value;
-            const form = {
-                workOrder: document.getElementById('workOrder').value,
-                description: document.getElementById('description').value,
-                submissionDate: document.getElementById('submissionDate').value,
-                status: document.getElementById('status').value,
-                plannedDate: document.getElementById('plannedDate').value,
-                responsible: document.getElementById('responsible').value,
-                highRisk: document.getElementById('highRisk').value,
-                image: document.getElementById('image-preview').querySelector('img')?.src || null,
-                comments: tickets.find(t => t.id === id)?.comments || []
-            };
-
-            const newComments = Array.from(document.querySelectorAll('#comments-list li')).map(li => {
-                const parts = li.textContent.split(': ');
-                return { date: parts[0], text: parts[1] };
-            });
-            form.comments = newComments;
-
-            if (!userId) {
-                console.error("User not authenticated. Cannot save ticket.");
-                return;
-            }
-
+        const updateTicket = async (ticketId, ticketData) => {
             try {
-                const consolidatedData = {
-                    ...form,
-                    status: getConsolidatedStatus(form.status),
-                    timestamp: serverTimestamp()
+                if (!isLoggedIn) {
+                    console.error("User not logged in. Cannot update tickets.");
+                    return;
+                }
+                const appId = firebaseConfig.appId;
+                const updatedTicket = {
+                    ...ticketData,
+                    highRisk: ticketData.highRisk === 'true',
                 };
+                // Use the hardcoded adminUserId in the path
+                await setDoc(doc(db, 'artifacts', appId, 'users', adminUserId, 'tickets', ticketId), updatedTicket, { merge: true });
+                hideModal('ticket-modal');
+                console.log("Ticket updated successfully!");
+            } catch (error) {
+                console.error("Error updating ticket:", error);
+            }
+        };
+
+        const deleteTicket = async (ticketId) => {
+            try {
+                if (!isLoggedIn) {
+                    console.error("User not logged in. Cannot delete tickets.");
+                    return;
+                }
+                const appId = firebaseConfig.appId;
+                // Use the hardcoded adminUserId in the path
+                await deleteDoc(doc(db, 'artifacts', appId, 'users', adminUserId, 'tickets', ticketId));
+                hideModal('confirmation-modal');
+                console.log("Ticket deleted successfully!");
+            } catch (error) {
+                console.error("Error deleting ticket:", error);
+            }
+        };
+
+        // --- Event Listeners ---
+        const attachEventListeners = () => {
+            const root = document.getElementById('root');
+            if (!root) return;
+            
+            root.addEventListener('click', (e) => {
+                // Login/Logout button logic
+                if (e.target.id === 'login-btn') {
+                    showModal('login-modal');
+                } else if (e.target.id === 'logout-btn') {
+                    handleLogout();
+                }
+
+                // Filter button logic
+                else if (e.target.closest('.status-btn')) {
+                    const status = e.target.closest('.status-btn').dataset.status;
+                    filterStatus = status;
+                    renderDashboard();
+                } else if (e.target.id === 'clear-filter-btn') {
+                    filterStatus = 'All';
+                    renderDashboard();
+                }
                 
-                const ticketsCollectionRef = collection(db, 'artifacts', APP_ID, 'users', userId, 'tickets');
-
-                if (id) {
-                    const ticketDocRef = doc(ticketsCollectionRef, id);
-                    await setDoc(ticketDocRef, consolidatedData, { merge: true });
-                } else {
-                    await addDoc(ticketsCollectionRef, consolidatedData);
+                // Admin action button logic
+                else if (e.target.id === 'add-ticket-btn') {
+                    document.getElementById('ticket-modal-title').innerText = "Add New Ticket";
+                    document.getElementById('ticket-id').value = "";
+                    document.getElementById('ticket-form').reset();
+                    showModal('ticket-modal');
+                } else if (e.target.classList.contains('edit-btn')) {
+                    const ticketId = e.target.dataset.id;
+                    const ticketToEdit = tickets.find(t => t.id === ticketId);
+                    if (ticketToEdit) {
+                        document.getElementById('ticket-modal-title').innerText = "Edit Ticket";
+                        document.getElementById('ticket-id').value = ticketId;
+                        document.getElementById('work-order').value = ticketToEdit.workOrder || '';
+                        document.getElementById('description').value = ticketToEdit.description || '';
+                        document.getElementById('status').value = ticketToEdit.status || '';
+                        document.getElementById('responsible').value = ticketToEdit.responsible || '';
+                        document.getElementById('planned-date').value = ticketToEdit.plannedDate || '';
+                        document.getElementById('high-risk').checked = ticketToEdit.highRisk === 'true' || ticketToEdit.highRisk === true;
+                        showModal('ticket-modal');
+                    }
+                } else if (e.target.classList.contains('delete-btn')) {
+                    const ticketId = e.target.dataset.id;
+                    document.getElementById('confirm-delete-btn').dataset.id = ticketId;
+                    showModal('confirmation-modal');
                 }
-            } catch (error) {
-                console.error("Error saving ticket: ", error);
-            }
-            closeModal();
-        };
 
-        const addComment = () => {
-            const newCommentInput = document.getElementById('new-comment');
-            const commentsList = document.getElementById('comments-list');
-            if (newCommentInput.value.trim() !== '' && commentsList) {
-                const today = new Date().toISOString().split('T')[0];
-                const newCommentHtml = `
-                    <li class="text-sm text-[#00212d]">
-                        <span class="font-semibold">${today}:</span> ${newCommentInput.value}
-                    </li>
-                `;
-                const commentsUl = commentsList.querySelector('ul') || document.createElement('ul');
-                if (!commentsList.querySelector('ul')) {
-                    commentsList.innerHTML = '';
-                    commentsList.appendChild(commentsUl);
+                // Calendar navigation
+                else if (e.target.id === 'prev-month-btn' || e.target.closest('#prev-month-btn')) {
+                    const currentCalendarDate = new Date(document.querySelector('#calendar-container h3').innerText);
+                    const newDate = new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth() - 1, 1);
+                    renderCalendarView(newDate);
+                } else if (e.target.id === 'next-month-btn' || e.target.closest('#next-month-btn')) {
+                    const currentCalendarDate = new Date(document.querySelector('#calendar-container h3').innerText);
+                    const newDate = new Date(currentCalendarDate.getFullYear(), currentCalendarDate.getMonth() + 1, 1);
+                    renderCalendarView(newDate);
                 }
-                commentsUl.insertAdjacentHTML('beforeend', newCommentHtml);
-                newCommentInput.value = '';
-            }
-        };
+            });
 
-        const handleImageUpload = (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    const previewDiv = document.getElementById('image-preview');
-                    previewDiv.innerHTML = `
-                        <h4 class="text-sm font-medium text-[#00212d]">Image Preview:</h4>
-                        <img src="${reader.result}" alt="ticket preview" class="w-24 h-24 object-cover rounded-lg mt-1">
-                    `;
+            // Search input listener
+            document.addEventListener('input', (e) => {
+                if (e.target.id === 'search-input') {
+                    renderDashboard();
+                }
+            });
+
+            // Login form submission and close
+            document.getElementById('login-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const username = e.target.elements['login-id'].value;
+                const password = e.target.elements['login-password'].value;
+                await handleLogin(username, password);
+            });
+            document.getElementById('close-login-modal').addEventListener('click', () => hideModal('login-modal'));
+
+            // Ticket form submission
+            document.getElementById('ticket-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const ticketId = document.getElementById('ticket-id').value;
+                const ticketData = {
+                    workOrder: document.getElementById('work-order').value,
+                    description: document.getElementById('description').value,
+                    status: document.getElementById('status').value,
+                    submissionDate: document.getElementById('submission-date').value,
+                    plannedDate: document.getElementById('planned-date').value,
+                    responsible: document.getElementById('responsible').value,
+                    highRisk: document.getElementById('high-risk').checked ? 'true' : 'false',
+                    // Image and other fields would be added here
                 };
-                reader.readAsDataURL(file);
-            }
-        };
 
-        const confirmDelete = async (e) => {
-            const id = e.target.dataset.id;
-            if (!userId || !id) {
-                console.error("User not authenticated or no ticket to delete.");
-                return;
-            }
-            try {
-                const ticketDocRef = doc(db, 'artifacts', APP_ID, 'users', userId, 'tickets', id);
-                await deleteDoc(ticketDocRef);
-                document.getElementById('confirmation-modal').remove();
-            } catch (error) {
-                console.error("Error deleting ticket: ", error);
-            }
-        };
+                if (ticketId) {
+                    await updateTicket(ticketId, ticketData);
+                } else {
+                    await addTicket(ticketData);
+                }
+            });
+            document.getElementById('close-ticket-modal').addEventListener('click', () => hideModal('ticket-modal'));
 
-        const cancelDelete = () => {
-            document.getElementById('confirmation-modal').remove();
+            // Delete confirmation buttons
+            document.getElementById('confirm-delete-btn').addEventListener('click', async (e) => {
+                const ticketId = e.target.dataset.id;
+                await deleteTicket(ticketId);
+            });
+            document.getElementById('cancel-delete-btn').addEventListener('click', () => hideModal('confirmation-modal'));
+
+            // Populate status select options
+            const statusSelect = document.getElementById('status');
+            predefinedStatuses.forEach(status => {
+                const option = document.createElement('option');
+                option.value = status;
+                option.textContent = status;
+                statusSelect.appendChild(option);
+            });
         };
         
         // --- Initialization Logic ---
 
-        window.onload = () => {
-            // Initialize Firebase
-            app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            auth = getAuth(app);
-
-            // Set up Firebase Auth listener
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    userId = user.uid;
-                } else {
-                    signInAnonymously(auth).then(() => {
-                        console.log("Signed in anonymously");
-                    }).catch((error) => {
-                        console.error("Anonymous sign-in failed:", error);
-                    });
-                }
-                isAuthReady = true;
-                if (userId) {
-                    startFirestoreListener();
-                }
-            });
-        };
-
-        // Start Firestore data listener after auth is ready
         const startFirestoreListener = () => {
-            const ticketsCollectionRef = collection(db, 'artifacts', APP_ID, 'users', userId, 'tickets');
+            const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            const adminUserId = '66JF47W8TdfJ4iLbrMk7NL50kb02';
+            
+            const ticketsCollectionRef = collection(db, 'artifacts', appId, 'users', adminUserId, 'tickets');
+
             onSnapshot(ticketsCollectionRef, (snapshot) => {
                 tickets = snapshot.docs.map(doc => ({
                     id: doc.id,
                     ...doc.data()
                 }));
+                // Sort tickets by submission date, newest first
+                tickets.sort((a, b) => {
+                    const dateA = a.submissionDate?.toDate ? a.submissionDate.toDate() : 0;
+                    const dateB = b.submissionDate?.toDate ? b.submissionDate.toDate() : 0;
+                    return dateB - dateA;
+                });
                 renderDashboard();
             }, (error) => {
                 console.error("Error fetching tickets: ", error);
             });
         };
 
+        window.onload = async () => {
+            try {
+                // Initialize Firebase with the hardcoded config
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                // Use a custom token or anonymous sign-in to authenticate with Firestore.
+                // This happens automatically in the background, separate from the UI login.
+                const customAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+                if (customAuthToken) {
+                    await signInWithCustomToken(auth, customAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                
+                // Now that Firebase is authenticated, we can start the data listener.
+                startFirestoreListener();
+
+                // Attach UI event listeners
+                attachEventListeners();
+
+            } catch (error) {
+                console.error("Firebase initialization failed:", error);
+            }
+        };
     </script>
 </body>
 </html>
